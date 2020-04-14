@@ -443,7 +443,7 @@ class WordPress {
       list.forEach((user) {
         users.add(User.fromJson(user));
       });
-      return FetchUsersResult(users, totalUsers, params.pageNum);
+      return FetchUsersResult(users, totalUsers);
     } else {
       try {
         WordPressError err =

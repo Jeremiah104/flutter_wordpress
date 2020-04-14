@@ -40,8 +40,8 @@ class LoginFieldsState extends State<LoginFields> {
   @override
   void initState() {
     super.initState();
-    _username = 'ChiefEditor';
-    _password = 'chiefeditor@123';
+    _username = 'jeremiah@solomonwebsites.ca';
+    _password = ')s6YknrNWW@Whu1TlytRVQF';
   }
 
   @override
@@ -148,7 +148,7 @@ class LoginFieldsState extends State<LoginFields> {
     });
 
     wp.WordPress wordPress = new wp.WordPress(
-      baseUrl: 'http://192.168.6.165',
+      baseUrl: 'https://meditateonchrist.com',
       authenticator: wp.WordPressAuthenticator.JWT,
     );
 
