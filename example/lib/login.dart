@@ -40,8 +40,8 @@ class LoginFieldsState extends State<LoginFields> {
   @override
   void initState() {
     super.initState();
-    _username = 'jeremiah@solomonwebsites.ca';
-    _password = ')s6YknrNWW@Whu1TlytRVQF';
+    _username = 'jer@solomonproperties.ca';
+    _password = 'Macbook10';
   }
 
   @override
@@ -163,7 +163,8 @@ class LoginFieldsState extends State<LoginFields> {
         _onValidUser(wordPress, user);
       });
     }).catchError((err) {
-      print(err.toString());
+      print('this.error');
+      print(err);
       setState(() {
         _isDetailValid = false;
         _isValidating = false;

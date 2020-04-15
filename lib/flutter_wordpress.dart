@@ -154,7 +154,7 @@ class WordPress {
   }
 
   async.Future<User> authenticateViaToken(String token) async {
-    _urlHeader['Authorization'] = 'Bearer ${token}';
+    _urlHeader['Authorization'] = 'Bearer $token';
 
     final response =
         await http.post(_baseUrl + URL_JWT_TOKEN_VALIDATE, headers: _urlHeader);
@@ -173,7 +173,7 @@ class WordPress {
   ///
   /// In case of an error, a [WordPressError] object is thrown.
   async.Future<User> fetchUser({int id, String email, String username}) async {
-    final StringBuffer url = new StringBuffer(_baseUrl + URL_USERS);
+    final StringBuffer url = new StringBuffer(_baseUrl + URL_USER_ME);
     final Map<String, String> params = {
       'search': '',
     };
@@ -192,7 +192,7 @@ class WordPress {
       if (jsonStr.length == 0)
         throw new WordPressError(
             code: 'wp_empty_list', message: "No users found");
-      return User.fromJson(jsonStr[0]);
+      return User.fromJson(jsonStr);
     } else {
       try {
         WordPressError err =
