@@ -142,9 +142,9 @@ class WordPress {
       return fetchUser(email: authResponse.userEmail);
     } else {
       try {
-        throw new WordPressError.fromJson(json.decode(response.body));
+        throw new WordPressError(message: response.statusCode.toString());
       } catch (e) {
-        throw new WordPressError(message: response.body);
+        throw new WordPressError(message: response.statusCode.toString());
       }
     }
   }

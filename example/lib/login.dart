@@ -163,8 +163,11 @@ class LoginFieldsState extends State<LoginFields> {
         _onValidUser(wordPress, user);
       });
     }).catchError((err) {
-      print('this.error');
-      print(err);
+      print(err.message);
+      err.message == ("Failed host lookup: 'meditateonchrist.com'")? print('No Internet'): print('Connected to internet');
+      err.message == '403' ? print('403') : print(' err not 403');
+      print('this error');
+      print(err.message);
       setState(() {
         _isDetailValid = false;
         _isValidating = false;
