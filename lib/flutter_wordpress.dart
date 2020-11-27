@@ -14,6 +14,7 @@ import 'dart:async' as async;
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+
 import 'package:meta/meta.dart';
 
 import 'constants.dart';
@@ -106,7 +107,7 @@ class WordPress {
   /// has been successfully authenticated.
   ///
   /// In case of an error, a [WordPressError] object is thrown.
-  async.Future<User> authenticateUser(
+  async.Future<Map> authenticateUser(
       {@required username, @required password}) async {
     if (_authenticator == WordPressAuthenticator.ApplicationPasswords) {
       return _authenticateViaAP(username, password);
@@ -116,12 +117,12 @@ class WordPress {
       return fetchUser(username: username);
   }
 
-  async.Future<User> _authenticateViaAP(username, password) async {
+  async.Future<Map> _authenticateViaAP(username, password) async {
     //TODO: Implement Application Passwords User Authentication
     return fetchUser(username: username);
   }
 
-  async.Future<User> _authenticateViaJWT(username, password) async {
+  async.Future<Map> _authenticateViaJWT(username, password) async {
     final body = {
       'username': username,
       'password': password,
@@ -172,7 +173,7 @@ class WordPress {
   /// Only one parameter is enough to search for the user.
   ///
   /// In case of an error, a [WordPressError] object is thrown.
-  async.Future<User> fetchUser({int id, String email, String username}) async {
+  async.Future<Map> fetchUser({int id, String email, String username}) async {
     final StringBuffer url = new StringBuffer(_baseUrl + URL_USER_ME);
     final Map<String, String> params = {
       'search': '',
@@ -192,7 +193,7 @@ class WordPress {
       if (jsonStr.length == 0)
         throw new WordPressError(
             code: 'wp_empty_list', message: "No users found");
-      return User.fromJson(jsonStr);
+      return jsonStr;
     } else {
       try {
         WordPressError err =
@@ -252,19 +253,22 @@ class WordPress {
     bool fetchTags = false,
     bool fetchFeaturedMedia = false,
     bool fetchAttachments = false,
-  }) async {
+  }) async {/*
     final StringBuffer url = new StringBuffer(_baseUrl + URL_POSTS);
+
 
     url.write(postParams.toString());
 
-    final response = await http.get(url.toString(), headers: _urlHeader);
+    print(url.toString());
+
+    final response = await http.get(url.toString()*//*, headers: _urlHeader*//*);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       List<Post> posts = new List();
       final list = json.decode(response.body);
 
       for (final post in list) {
-        posts.add(await _postBuilder(
+        posts.add(await postBuilder(
           post: Post.fromJson(post),
           setAuthor: fetchAuthor,
           setComments: fetchComments,
@@ -285,12 +289,68 @@ class WordPress {
       } catch (e) {
         throw new WordPressError(message: response.body);
       }
-    }
+    }*/
   }
+
+  Future<Stream<Post>> streamPosts({
+    @required ParamsPostList postParams,
+    bool fetchAuthor = false,
+    bool fetchComments = false,
+    Order orderComments = Order.desc,
+    CommentOrderBy orderCommentsBy = CommentOrderBy.date,
+    bool fetchCategories = false,
+    bool fetchTags = false,
+    bool fetchFeaturedMedia = false,
+    bool fetchAttachments = false,
+  })async {
+    print('nice');
+    final StringBuffer url = new StringBuffer(_baseUrl + URL_POSTS);
+
+    url.write(postParams.toString());
+   // final req = http.Request("GET",Uri.parse(url.toString()));
+    final client = http.Client();
+    final streamedRest = await client.send(
+        http.Request('get', Uri.parse(url.toString()))
+    );
+
+    return streamedRest.stream
+        .transform(utf8.decoder)
+        .transform(json.decoder)
+        .expand((data) => (data as List))
+        .map((post) => Post.fromJson(post));
+  }
+    /*if (res.statusCode >= 200 && res.statusCode < 300) {
+      List<Post> posts = new List();
+      return res.stream;*/
+
+      /*for (final post in list) {
+        posts.add(_postBuilder(
+          post: Post.fromJson(post),
+          setAuthor: fetchAuthor,
+          setComments: fetchComments,
+          orderComments: orderComments,
+          orderCommentsBy: orderCommentsBy,
+          setCategories: fetchCategories,
+          setTags: fetchTags,
+          setFeaturedMedia: fetchFeaturedMedia,
+          setAttachments: fetchAttachments,
+        ));
+      }
+      return posts;*/
+/*    } *//*else {
+      try {
+        WordPressError err =
+        WordPressError.fromJson(json.decode(res.body));
+        throw err;
+      } catch (e) {
+        throw new WordPressError(message: response.body);
+      }
+    }*//*
+  }*/
 
   /// This function fetches post information such as author, comments, categories,
   /// tags, featuredMedia and attachments.
-  Future<Post> _postBuilder({
+/*  Future<Post> postBuilder({
     Post post,
     bool setAuthor = false,
     bool setComments = false,
@@ -302,7 +362,7 @@ class WordPress {
     bool setAttachments = false,
   }) async {
     if (setAuthor) {
-      User author = await fetchUser(id: post.authorID);
+      Map author = await fetchUser(id: post.authorID);
       if (author != null) post.author = author;
     }
     if (setComments) {
@@ -350,7 +410,7 @@ class WordPress {
       if (media != null && media.length != 0) post.attachments = media;
     }
     return post;
-  }
+  }*/
 
   ///This recursive function builds the hierarchy of comments for the given post
   ///and comment. Only parent comments (direct comments to post) need to be

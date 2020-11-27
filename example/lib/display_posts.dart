@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_wordpress/flutter_wordpress.dart' as wp;
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_wordpress/flutter_wordpress.dart';
+import 'package:flutter_wordpress/schemas/post.dart';
 import 'post_page.dart';
 
 class PostListPage extends StatelessWidget {
@@ -38,13 +42,14 @@ class PostsBuilderState extends State<PostsBuilder> {
   final padding_8 = EdgeInsets.all(8.0);
   final padding_16 = EdgeInsets.all(16.0);
 
-  Future<List<wp.Post>> posts;
+  Future<List> posts;
+  int displaying = 2;
 
   @override
   void initState() {
     super.initState();
 
-    fetchPosts();
+    fetchPosts(loaded);
   }
 
   void createPost(wp.User user) {
@@ -87,16 +92,86 @@ class PostsBuilderState extends State<PostsBuilder> {
     });
   }
 
-  Future<void> fetchPosts() {
+  int loaded = 0;
+
+  Future<void> fetchPosts(int getMore) async {
+    Future<List> newList = widget.wordPress.fetchPosts(
+      postParams: wp.ParamsPostList(
+        //searchQuery: 'Stories',
+        perPage: 10,
+        pageNum: 1,
+        includeCategories: [17],
+        offset: getMore * 10,
+      ),
+      fetchAuthor: false,
+      fetchFeaturedMedia: false,
+    );
     setState(() {
-      posts = widget.wordPress.fetchPosts(
-        postParams: wp.ParamsPostList(),
-        fetchAuthor: true,
-        fetchFeaturedMedia: true,
-      );
+      posts = newList;
     });
     return posts;
   }
+
+  var stream;
+
+  /*streamPosts(int postCount)async {
+    var newPosts;
+    try {
+      newPosts = await widget.wordPress.streamPosts(
+        postParams: wp.ParamsPostList(
+          perPage: postCount,
+          pageNum: 1,
+        ),
+        fetchAuthor: true,
+        fetchFeaturedMedia: false,
+      );
+
+
+      for (final post in newPosts) {
+        posts.add(await widget.wordPress.postBuilder(
+          post: post,
+          setAuthor: false,
+          setComments: false,
+          orderComments: Order.desc,
+          orderCommentsBy:  CommentOrderBy.date,
+          setCategories: false,
+          setTags: false,
+          setFeaturedMedia: false,
+          setAttachments: false,
+        ));
+      }
+
+    } on Exception catch (e) {
+      print(e);
+    }
+    */ /*setState(() {
+      posts = newPosts;
+      print(posts);
+    });*/ /*
+    return posts;
+  }*/
+
+  /*void listenForPosts() async {
+    List testList = [];
+    final Stream<wp.Post> stream = await streamPosts(displaying);
+    stream.listen((wp.Post post) =>
+        setState(() =>  testList.add(post))
+    );
+    for (final post in testList) {
+      posts.add(await widget.wordPress.postBuilder(
+        post: post,
+        setAuthor: false,
+        setComments: false,
+        orderComments: Order.desc,
+        orderCommentsBy:  CommentOrderBy.date,
+        setCategories: false,
+        setTags: false,
+        setFeaturedMedia: false,
+        setAttachments: false,
+      ));
+    }
+
+  }*/
 
   @override
   Widget build(BuildContext context) {
@@ -104,32 +179,61 @@ class PostsBuilderState extends State<PostsBuilder> {
       future: posts,
       builder: (context, snapshot) {
         if (snapshot.hasData) {
-          return RefreshIndicator(
-            child: ListView.builder(
-              itemBuilder: (context, i) {
-                String title = snapshot.data[i].title.rendered;
-                String author = snapshot.data[i].author.name;
-                String content = snapshot.data[i].content.rendered;
-                wp.Media featuredMedia = snapshot.data[i].featuredMedia;
+          return Column(
+            children: <Widget>[
+              Expanded(
+                flex: 100,
+                child: ListView.builder(
+                  itemBuilder: (context, i) {
+                    String title = snapshot.data[i].title.rendered.toString();
+                    //String author = snapshot.data[i].author.name;
+                    String content = snapshot.data[i].content.rendered;
+                   //wp.Media featuredMedia = snapshot.data[i].featuredMedia;
+                    String category = snapshot.data[i].categoryIDs.toString();
 
-                return Padding(
-                  padding: paddingCardsList,
-                  child: GestureDetector(
-                    onTap: () {
-                      openPostPage(snapshot.data[i]);
-                    },
-                    child: _buildPostCard(
-                      author: author,
-                      title: title,
-                      content: content,
-                      featuredMedia: featuredMedia,
+                    return Padding(
+                      padding: paddingCardsList,
+                      child: GestureDetector(
+                        onTap: () {
+                          print(category);
+                          openPostPage(snapshot.data[i]);
+                        },
+                        child: _buildPostCard(
+                          //author: author,
+                          title: title,
+                          content: content,
+                         // featuredMedia: featuredMedia,
+                        ),
+                      ),
+                    );
+                  },
+                  itemCount: snapshot.data.length,
+                ),
+              ),
+              Expanded(
+                  flex: 12,
+                  child: Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        RaisedButton(
+                          color: Colors.cyan[100],
+                          child: Text('Previous page'),
+                          onPressed: () {
+                            back();
+                          },
+                        ),
+                        RaisedButton(
+                            color: Colors.cyan,
+                            onPressed: () {
+                              next();
+                            },
+                            child: Text('Next Page'))
+                      ],
                     ),
-                  ),
-                );
-              },
-              itemCount: snapshot.data.length,
-            ),
-            onRefresh: fetchPosts,
+                  ))
+            ],
           );
         } else if (snapshot.hasError) {
           return Text(
@@ -145,12 +249,30 @@ class PostsBuilderState extends State<PostsBuilder> {
     );
   }
 
+  next() async {
+    Future<List> empty;
+
+    setState(() {
+      posts = empty;
+      loaded++;
+    });
+    await fetchPosts(loaded);
+  }
+
+  back() async {
+    setState(() {
+      loaded--;
+    });
+    await fetchPosts(loaded);
+  }
+
   Widget _buildPostCard({
     String author,
     String title,
     String content,
     wp.Media featuredMedia,
   }) {
+    author = 'test';
     return Card(
       color: Colors.white,
       child: Column(
@@ -164,7 +286,7 @@ class PostsBuilderState extends State<PostsBuilder> {
               style: Theme.of(context).textTheme.title,
             ),
           ),
-          _buildFeaturedMedia(featuredMedia),
+         // _buildFeaturedMedia(featuredMedia),
           featuredMedia == null
               ? Divider()
               : SizedBox(
@@ -191,14 +313,17 @@ class PostsBuilderState extends State<PostsBuilder> {
     );
   }
 
-  Widget _buildFeaturedMedia(wp.Media featuredMedia) {
+ /* Widget _buildFeaturedMedia(wp.Media featuredMedia) {
     if (featuredMedia == null) {
       return SizedBox(
         width: 0.0,
         height: 0.0,
       );
     }
-    String imgSource = featuredMedia.mediaDetails.sizes.mediumLarge.sourceUrl;
+
+    String imgSource = featuredMedia.mediaDetails.sizes.mediumLarge != null
+        ? featuredMedia.mediaDetails.sizes.mediumLarge.sourceUrl
+        : 'null';
     imgSource = imgSource.replaceAll('localhost', '192.168.6.165');
     return Center(
       child: Image.network(
@@ -206,14 +331,17 @@ class PostsBuilderState extends State<PostsBuilder> {
         fit: BoxFit.cover,
       ),
     );
-  }
+  }*/
 
   void openPostPage(wp.Post post) {
-    print('OnTapped');
+    //print('OnTapped');
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) {
-        return SinglePostPage(wordPress: widget.wordPress, post: post,);
+        return SinglePostPage(
+          wordPress: widget.wordPress,
+          post: post,
+        );
       }),
     );
   }
