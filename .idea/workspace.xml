@@ -1,19 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="73f4dbd7-3b98-4a12-b0ae-5e3c44fac77c" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/libraries/Dart_Packages.xml" afterDir="false" />
+    <list default="true" id="73f4dbd7-3b98-4a12-b0ae-5e3c44fac77c" name="Default Changelist" comment="Change from returning user to return Map">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Flutter/Debug.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Flutter/Debug.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Flutter/Release.xcconfig" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Flutter/Release.xcconfig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.pbxproj" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Runner.xcodeproj/project.pbxproj" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/ios/Runner.xcworkspace/contents.xcworkspacedata" beforeDir="false" afterPath="$PROJECT_DIR$/example/ios/Runner.xcworkspace/contents.xcworkspacedata" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/example/lib/display_posts.dart" beforeDir="false" afterPath="$PROJECT_DIR$/example/lib/display_posts.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/constants.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/constants.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/flutter_wordpress.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/flutter_wordpress.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.lock" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pubspec.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/pubspec.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -98,7 +87,14 @@
       <option name="project" value="LOCAL" />
       <updated>1587163803682</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Change from returning user to return Map">
+      <created>1606507045936</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1606507045936</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -119,28 +115,17 @@
     <MESSAGE value="fix fetch users issue" />
     <MESSAGE value="Changed Fetch Users to User_ME" />
     <MESSAGE value="Authenticate VIA JWT errors changed to throw status code" />
-    <option name="LAST_COMMIT_MESSAGE" value="Authenticate VIA JWT errors changed to throw status code" />
+    <MESSAGE value="Change from returning user to return Map" />
+    <option name="LAST_COMMIT_MESSAGE" value="Change from returning user to return Map" />
   </component>
   <component name="WindowStateProjectService">
-    <state width="1868" height="208" key="GridCell.Tab.0.bottom" timestamp="1597339219201">
-      <screen x="1536" y="-197" width="1920" height="1080" />
+    <state x="1631" y="-157" key="CommitChangelistDialog2" timestamp="1612794421390">
+      <screen x="1344" y="-157" width="1600" height="900" />
     </state>
-    <state width="1868" height="208" key="GridCell.Tab.0.bottom/0.0.1536.960/1536.-197.1920.1080@1536.-197.1920.1080" timestamp="1597339219201" />
-    <state width="1868" height="208" key="GridCell.Tab.0.center" timestamp="1597339219200">
-      <screen x="1536" y="-197" width="1920" height="1080" />
+    <state x="1631" y="-157" key="CommitChangelistDialog2/0.0.1344.840/1344.-157.1600.900@1344.-157.1600.900" timestamp="1612794421390" />
+    <state x="1906" y="192" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1612794708321">
+      <screen x="1344" y="-157" width="1600" height="900" />
     </state>
-    <state width="1868" height="208" key="GridCell.Tab.0.center/0.0.1536.960/1536.-197.1920.1080@1536.-197.1920.1080" timestamp="1597339219200" />
-    <state width="1868" height="208" key="GridCell.Tab.0.left" timestamp="1597339219197">
-      <screen x="1536" y="-197" width="1920" height="1080" />
-    </state>
-    <state width="1868" height="208" key="GridCell.Tab.0.left/0.0.1536.960/1536.-197.1920.1080@1536.-197.1920.1080" timestamp="1597339219197" />
-    <state width="1868" height="208" key="GridCell.Tab.0.right" timestamp="1597339219201">
-      <screen x="1536" y="-197" width="1920" height="1080" />
-    </state>
-    <state width="1868" height="208" key="GridCell.Tab.0.right/0.0.1536.960/1536.-197.1920.1080@1536.-197.1920.1080" timestamp="1597339219201" />
-    <state x="1636" y="-97" width="1720" height="880" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog" timestamp="1597339157016">
-      <screen x="1536" y="-174" width="1920" height="1057" />
-    </state>
-    <state x="1636" y="-97" width="1720" height="880" key="com.intellij.history.integration.ui.views.DirectoryHistoryDialog/0.23.1536.871/1536.-174.1920.1057@1536.-174.1920.1057" timestamp="1597339157016" />
+    <state x="1906" y="192" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1344.840/1344.-157.1600.900@1344.-157.1600.900" timestamp="1612794708321" />
   </component>
 </project>
