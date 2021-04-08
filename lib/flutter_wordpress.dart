@@ -129,7 +129,7 @@ class WordPress {
     };
 
     final response = await http.post(
-      _baseUrl + URL_JWT_TOKEN,
+      Uri.parse(_baseUrl + URL_JWT_TOKEN),
       body: body,
     );
 
@@ -158,7 +158,7 @@ class WordPress {
     _urlHeader['Authorization'] = 'Bearer $token';
 
     final response =
-        await http.post(_baseUrl + URL_JWT_TOKEN_VALIDATE, headers: _urlHeader);
+        await http.post(Uri.parse(_baseUrl + URL_JWT_TOKEN_VALIDATE), headers: _urlHeader);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       return fetchMeUser();
@@ -186,7 +186,7 @@ class WordPress {
 
     url.write(constructUrlParams(params));
 
-    final response = await http.get(url.toString(), headers: _urlHeader);
+    final response = await http.get(Uri.parse(url.toString()), headers: _urlHeader);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final jsonStr = json.decode(response.body);
@@ -210,7 +210,7 @@ class WordPress {
   /// In case of an error, a [WordPressError] object is thrown.
   async.Future<User> fetchMeUser() async {
     final response =
-        await http.get(_baseUrl + URL_USER_ME, headers: _urlHeader);
+        await http.get(Uri.parse(_baseUrl + URL_USER_ME), headers: _urlHeader);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       final jsonStr = json.decode(response.body);
@@ -444,7 +444,7 @@ class WordPress {
 
     url.write(params.toString());
 
-    final response = await http.get(url.toString(), headers: _urlHeader);
+    final response = await http.get(Uri.parse(url.toString()), headers: _urlHeader);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       List<Page> pages = new List<Page>();
@@ -493,7 +493,7 @@ class WordPress {
   }
 
   async.Future<FetchUsersResult> _doUsersFetch(StringBuffer url) async {
-    final response = await http.get(url.toString(), headers: _urlHeader);
+    final response = await http.get(Uri.parse(url.toString()), headers: _urlHeader);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       List<User> users = new List<User>();
@@ -526,7 +526,7 @@ class WordPress {
 
     url.write(params.toString());
 
-    final response = await http.get(url.toString(), headers: _urlHeader);
+    final response = await http.get(Uri.parse(url.toString()), headers: _urlHeader);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       List<Comment> comments = new List<Comment>();
@@ -558,7 +558,7 @@ class WordPress {
 
     url.write(params.toString());
 
-    final response = await http.get(url.toString(), headers: _urlHeader);
+    final response = await http.get(Uri.parse(url.toString()), headers: _urlHeader);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       List<Comment> comments = new List<Comment>();
@@ -595,7 +595,7 @@ class WordPress {
 
     url.write(params.toString());
 
-    final response = await http.get(url.toString(), headers: _urlHeader);
+    final response = await http.get(Uri.parse(url.toString()), headers: _urlHeader);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       List<Category> categories = new List<Category>();
@@ -625,7 +625,7 @@ class WordPress {
 
     url.write(params.toString());
 
-    final response = await http.get(url.toString(), headers: _urlHeader);
+    final response = await http.get(Uri.parse(url.toString()), headers: _urlHeader);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       List<Tag> tags = new List<Tag>();
@@ -656,7 +656,7 @@ class WordPress {
 
     url.write(params.toString());
 
-    final response = await http.get(url.toString(), headers: _urlHeader);
+    final response = await http.get(Uri.parse(url.toString()), headers: _urlHeader);
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
       List<Media> media = new List<Media>();
@@ -686,7 +686,7 @@ class WordPress {
     final StringBuffer url = new StringBuffer(_baseUrl + URL_POSTS);
 
     final response = await http.post(
-      url.toString(),
+      Uri.parse(url.toString()),
       headers: _urlHeader,
       body: post.toJson(),
     );
@@ -714,7 +714,7 @@ class WordPress {
     final StringBuffer url = new StringBuffer(_baseUrl + URL_COMMENTS);
 
     final response = await http.post(
-      url.toString(),
+      Uri.parse(url.toString()),
       headers: _urlHeader,
       body: comment.toJson(),
     );

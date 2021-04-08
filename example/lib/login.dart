@@ -91,7 +91,7 @@ class LoginFieldsState extends State<LoginFields> {
                     ),
                   ),
             RaisedButton(
-              onPressed: _isValidating ? () {} : _validateUser,
+              onPressed: _isValidating ? () {} : (){},//_validateUser,
               color: Colors.blue,
               textColor: Colors.white,
               child: Padding(
@@ -142,7 +142,7 @@ class LoginFieldsState extends State<LoginFields> {
     _password = value;
   }
 
-  void _validateUser() {
+  /*void _validateUser() {
     setState(() {
       _isValidating = true;
     });
@@ -173,7 +173,7 @@ class LoginFieldsState extends State<LoginFields> {
         _isValidating = false;
       });
     });
-  }
+  }*/
 
   void _onValidUser(wp.WordPress wordPress, wp.User user) {
     Navigator.pushReplacement(
